@@ -16,7 +16,12 @@ export const Header = () => {
           <span>AI Insider Club</span>
         </span>
       </div>
-      <p className="text-sm text-white">
+      <p className="
+        text-sm 
+        text-white
+        text-center sm:text-right 
+        max-w-[220px] sm:max-w-none 
+        leading-tight sm:leading-normal">
         A comunidade que crescem com{" "}
         <span className="text-white font-bold">Inteligência Artificial</span>
       </p>
