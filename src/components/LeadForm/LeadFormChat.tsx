@@ -71,7 +71,7 @@ export const LeadFormChat = () => {
   useEffect(() => {
     // Initial greeting
     addMessage(
-      "Bem-vindo! 👋 Em poucos passos, vou montar um Plano Estratégico de IA sob medida para você, identificando oportunidades reais para aumentar ganhos, otimizar tempo e escalar seus resultados com inteligência artificial.",
+      "Bem-vindo! 👋 Em poucos passos, vou montar um Plano Estratégico para aumentar seu faturamento com IA",
       false
     );
     setTimeout(() => {
