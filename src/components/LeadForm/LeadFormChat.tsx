@@ -257,7 +257,7 @@ export const LeadFormChat = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-6">
         <Header />
 

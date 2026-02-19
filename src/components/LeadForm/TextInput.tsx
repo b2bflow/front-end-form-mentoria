@@ -72,11 +72,11 @@ export const TextInput = ({ placeholder, onSubmit, type = "text" }: TextInputPro
           disabled={!isValid}
           className={`p-2 rounded-full transition-all duration-300 ${
             isValid 
-              ? "bg-black text-primary-foreground opacity-100 scale-100" 
+              ? "bg-white text-primary-foreground opacity-100 scale-100" 
               : "bg-white/20 text-white/50 opacity-50 scale-90 cursor-not-allowed"
           }`}
         >
-          <Send className="text-white" size={16} />
+          <Send className="text-black" size={16} />
         </button>
       </div>
     </motion.form>

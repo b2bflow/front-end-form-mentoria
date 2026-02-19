@@ -21,7 +21,7 @@ export const OptionButtons = ({ options, onSelect }: OptionButtonsProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex flex-wrap justify-end gap-2 mb-4"
+      className="flex flex-wrap justify-end gap-3 mb-4"
     >
       {options.map((option, index) => (
         <motion.button
@@ -29,17 +29,38 @@ export const OptionButtons = ({ options, onSelect }: OptionButtonsProps) => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.2, delay: index * 0.05 }}
-          
-          // Lógica de clique e desativação
           onClick={() => handleSelect(option)}
           disabled={hasSelected}
-          
-          // Estilização condicional para o estado desativado
-          className={`px-5 py-3 text-black rounded-full shadow-lg font-medium transition-all duration-200
-            ${hasSelected 
-              ? "bg-gray-300 cursor-not-allowed opacity-70" 
-              : "bg-chat-user hover:shadow-xl hover:scale-105 active:scale-95"
-            }`}
+          className={`
+            px-6 py-3 
+            rounded-full 
+            font-medium 
+            text-sm
+            transition-all duration-300
+            ${
+              hasSelected
+                ? `
+                  bg-gradient-to-r 
+                  from-blue-400 
+                  to-purple-400 
+                  text-white 
+                  opacity-60 
+                  cursor-not-allowed
+                  shadow-sm
+                `
+                : `
+                  bg-gradient-to-r 
+                  from-blue-600 
+                  via-indigo-500 
+                  to-purple-600 
+                  text-white 
+                  shadow-[0_8px_20px_-5px_rgba(124,58,237,0.45)]
+                  hover:scale-105
+                  hover:shadow-[0_12px_30px_-5px_rgba(124,58,237,0.6)]
+                  active:scale-95
+                `
+            }
+          `}
         >
           {option}
         </motion.button>

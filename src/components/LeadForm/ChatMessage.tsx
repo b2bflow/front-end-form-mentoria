@@ -7,7 +7,11 @@ interface ChatMessageProps {
   delay?: number;
 }
 
-export const ChatMessage = ({ children, isUser = false, delay = 0 }: ChatMessageProps) => {
+export const ChatMessage = ({
+  children,
+  isUser = false,
+  delay = 0,
+}: ChatMessageProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -16,11 +20,34 @@ export const ChatMessage = ({ children, isUser = false, delay = 0 }: ChatMessage
       className={`flex ${isUser ? "justify-end" : "justify-start"} mb-4`}
     >
       <div
-        className={`max-w-[85%] md:max-w-[70%] px-5 py-3 rounded-2xl tex ${
-          isUser
-            ? "bg-chat-user text-primary-foreground shadow-lg text-black"
-            : "text-white"
-        }`}
+        className={`
+          max-w-[85%] md:max-w-[70%] 
+          px-5 py-3 
+          rounded-2xl 
+          text-sm 
+          leading-relaxed
+          transition-all duration-300
+          font-medium
+          ${
+            isUser
+              ? `
+                bg-gradient-to-r 
+                from-blue-600 
+                via-indigo-500 
+                to-purple-600 
+                text-white 
+                shadow-[0_10px_25px_-5px_rgba(124,58,237,0.45)]
+                hover:scale-[1.02]
+                font-medium
+              `
+              : `
+                bg-white 
+                text-gray-800 
+                border border-gray-200 
+                shadow-sm
+              `
+          }
+        `}
       >
         {children}
       </div>
