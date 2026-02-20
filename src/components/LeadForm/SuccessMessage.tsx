@@ -8,9 +8,9 @@ interface LeadData {
   telefone: string;
   email: string;
   empresa: string;
-  desafio: string;
+  desafio: string | string[];
   momento: string;
-  investimento: string;
+  // investimento: string;
   dataAgendada: Date;
   horaAgendada: string;
 }

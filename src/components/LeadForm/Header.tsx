@@ -18,7 +18,7 @@ export const Header = () => {
         justify-between 
         gap-4 
         bg-white
-        shadow-[0_10px_30px_-10px_rgba(124,58,237,0.25)]
+        shadow-[0_10px_30px_-10px]
         border border-gray-200
       "
     >
@@ -30,10 +30,7 @@ export const Header = () => {
         -translate-x-1/2 
         w-[98%]  
         h-[3px] 
-        bg-gradient-to-r 
-        from-blue-600 
-        via-indigo-500 
-        to-purple-600
+        bg-black
         rounded-b-2xl" />
 
       {/* Logo */}
@@ -64,7 +61,7 @@ export const Header = () => {
         A comunidade que cresce com{" "}
         <span className="
           font-semibold
-          bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600
+          bg-black
           bg-clip-text text-transparent
           block sm:inline
         ">

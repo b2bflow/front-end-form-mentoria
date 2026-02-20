@@ -11,7 +11,6 @@ export const OptionButtons = ({ options, onSelect }: OptionButtonsProps) => {
 
   const handleSelect = (option: string) => {
     if (hasSelected) return;
-
     setHasSelected(true);
     onSelect(option);
   };
@@ -21,7 +20,10 @@ export const OptionButtons = ({ options, onSelect }: OptionButtonsProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex flex-wrap justify-end gap-3 mb-4"
+      /* Alteração: Usamos grid para forçar colunas iguais. 
+         grid-cols-1 em telas pequenas, grid-cols-2 ou mais em telas maiores.
+      */
+      className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 w-full"
     >
       {options.map((option, index) => (
         <motion.button
@@ -31,34 +33,24 @@ export const OptionButtons = ({ options, onSelect }: OptionButtonsProps) => {
           transition={{ duration: 0.2, delay: index * 0.05 }}
           onClick={() => handleSelect(option)}
           disabled={hasSelected}
+          /* Alteração: Adicionado 'w-full' para preencher a célula do grid 
+             e 'break-words' caso o texto seja muito longo.
+          */
           className={`
+            w-full
             px-6 py-3 
             rounded-full 
             font-medium 
             text-sm
+            text-center
             transition-all duration-300
-            ${
-              hasSelected
-                ? `
-                  bg-gradient-to-r 
-                  from-blue-400 
-                  to-purple-400 
-                  text-white 
-                  opacity-60 
-                  cursor-not-allowed
-                  shadow-sm
-                `
-                : `
-                  bg-gradient-to-r 
-                  from-blue-600 
-                  via-indigo-500 
-                  to-purple-600 
-                  text-white 
-                  shadow-[0_8px_20px_-5px_rgba(124,58,237,0.45)]
-                  hover:scale-105
-                  hover:shadow-[0_12px_30px_-5px_rgba(124,58,237,0.6)]
-                  active:scale-95
-                `
+            ${hasSelected
+              ? "bg-black text-white opacity-60 cursor-not-allowed shadow-sm"
+              : `bg-black  text-white 
+                   shadow-[0_8px_20px_-5px]
+                   hover:scale-105
+                   hover:shadow-[0_12px_30px_-5px]
+                   active:scale-95`
             }
           `}
         >

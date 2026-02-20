@@ -9,15 +9,16 @@ import { SuccessMessage } from "./SuccessMessage";
 import { getSessionCookie, setSessionCookie } from "@/utils/cookies";
 import { createLead, createAppointment, LeadData, updateLead, CreateLeadData } from "@/services/mockApi";
 import { a } from "vitest/dist/chunks/suite.d.FvehnV49.js";
+import { MultiOptionButtons } from "./MultiOptionButtons";
 
 interface LeadFormData {
   nome: string;
   telefone: string;
   email: string;
   empresa: string;
-  desafio: string;
+  desafio: string | string[];
   momento: string;
-  investimento: string;
+  // investimento: string;
   dataAgendada: Date;
   horaAgendada: string;
 }
@@ -30,7 +31,7 @@ type Step =
   | "empresa"
   | "desafio"
   | "momento"
-  | "investimento"
+  // | "investimento"
   | "success"
   | "data";
 
@@ -38,10 +39,10 @@ const desafio = ["Consumo muitos tutoriais, mas não sei qual stack de ferrament
 
 const momento = ["Trabalho em outra área, mas quero aproveitar o boom da IA para construir minha liberdade financeira e migrar de carreira.", "Já sou dono de agência (marketing, software, etc) e preciso integrar IA urgentemente para não perder mercado.", "Faço alguns freelas de automação, mas sinto que sou visto como um amador e quero me tornar uma referência de elite.", "Tenho facilidade técnica, mas percebi que preciso aprender a vender e gerir um negócio de IA para ganhar dinheiro de verdade.", "Sou sócio/gestor de uma empresa e quero aprender o método para implementar soluções internas e reduzir custos.", "Domino a técnica e quero estruturar meu conhecimento para ensinar outros, mas me falta o método de escala."];
 const investimento = [
-"Entendo o valor de um método testado e o investimento está totalmente dentro do meu planejamento para crescer agora",
-"Tenho o capital, mas meu foco é validar como este acompanhamento vai acelerar meu ROI",
-"Tenho prioridade total em resolver isso, mas precisaria de opções de parcelamento",
-"Reconheço que preciso de ajuda, mas no momento não possuo recurso financeiro para investir em uma mentoria profissional."
+  "Entendo o valor de um método testado e o investimento está totalmente dentro do meu planejamento para crescer agora",
+  "Tenho o capital, mas meu foco é validar como este acompanhamento vai acelerar meu ROI",
+  "Tenho prioridade total em resolver isso, mas precisaria de opções de parcelamento",
+  "Reconheço que preciso de ajuda, mas no momento não possuo recurso financeiro para investir em uma mentoria profissional."
 ];
 
 
@@ -121,17 +122,19 @@ export const LeadFormChat = () => {
         addMessage("Perfeito! Qual o nome da sua empresa?", false);
         setStep("empresa");
       } else {
-        addMessage("Perfeito! Qual seu maior desafio hoje?", false);
+        addMessage(`Perfeito ${leadData.nome}! E hoje, quais destes 'gargalos' mais impede você de transformar seu conhecimento em IA em um faturamento recorrente e escalável?`, false);
         setStep("desafio");
       }
     }, 400);
   };
 
-  const handleDesafio = async (desafio: string) => {
+  const handleDesafio = async (desafiosSelecionados: string[]) => {
 
     if (leadData.empresa == undefined) {
       leadData.empresa = leadData.nome
     }
+
+    const desafiosTexto = desafiosSelecionados.join(", ");
 
     const currentLeadData: CreateLeadData = {
       name: leadData.nome!,
@@ -143,14 +146,18 @@ export const LeadFormChat = () => {
 
     try {
       const response = await createLead(currentLeadData);
-      console.log(response);
-      console.log('token',response.token);
       setLeadToken(response.token);
 
-      setLeadData((prev) => ({ ...prev, desafio }));
-      addMessage(desafio, true);
+      setLeadData((prev) => ({ ...prev, desafio: desafiosSelecionados }));
+
+      // O erro era aqui: faltava o .join
+      const textoParaExibir = desafiosSelecionados.length > 1
+        ? `Meus desafios são:\n${desafiosSelecionados.join('\n')}`
+        : desafiosSelecionados[0];
+      addMessage(textoParaExibir, true);
+
       setTimeout(() => {
-        addMessage("Perfeito! Qual o momento da sua empresa?", false);
+        addMessage("Perfeito! Qual o momento você se encontra hoje?", false);
         setStep("momento");
       }, 400);
 
@@ -164,26 +171,21 @@ export const LeadFormChat = () => {
     setLeadData((prev) => ({ ...prev, empresa }));
     addMessage(empresa, true);
     setTimeout(() => {
-        addMessage(
-          `${empresa}! É sempre um prazer conhecer empresas assim. A IA pode trazer um diferencial incrível para vocês. Qual o segmento da sua empresa?`,
-          false
-        );
-        setStep("desafio");
-      }, 400);
-  };
-
-  const handleMomento = (momento: string) => {
-    setLeadData((prev) => ({ ...prev, momento }));
-    addMessage(momento, true);
-    setTimeout(() => {
-      addMessage("o valor médio do acompanhanto é de R$ 6.000, como você identifica esse investimento?", false);
-      setStep("investimento");
+      addMessage(
+        `Perfeito ${leadData.nome}! E hoje, quais destes 'gargalos' mais impede você de transformar seu conhecimento em IA em um faturamento recorrente e escalável?`,
+        false
+      );
+      setStep("desafio");
     }, 400);
   };
 
-  const handleInvestimento = async (investimento: string) => {
-    setLeadData((prev) => ({ ...prev, investimento }));
-    addMessage(investimento, true);
+  const handleMomento = async (momento: string) => {
+    setLeadData((prev) => ({ ...prev, momento }));
+    addMessage(momento, true);
+    // setTimeout(() => {
+    //   addMessage(`${leadData.nome}, acredito que o Insider Master AI é o treinamento ideal para seu momento hoje. O valor médio do acompanhamento é de R$ 6.000, como você avalia esse investimento?`, false);
+    //   setStep("investimento");
+    // }, 400);
 
     const currentLeadData: LeadData = {
       name: leadData.nome!,
@@ -191,8 +193,8 @@ export const LeadFormChat = () => {
       email: leadData.email!,
       business_name: leadData.empresa!,
       challenge: leadData.desafio!,
-      customer_stage: leadData.momento!,
-      investment_capacity: investimento,
+      customer_stage: momento!,
+      // investment_capacity: investimento,
       type_lead: "consultoria"
     };
 
@@ -221,7 +223,50 @@ export const LeadFormChat = () => {
       addMessage("Vamos marcar nosso encontro?", false);
       setStep("data");
     }, 400);
+
   };
+  
+  // const handleInvestimento = async (investimento: string) => {
+  //   setLeadData((prev) => ({ ...prev, investimento }));
+  //   addMessage(investimento, true);
+
+  //   const currentLeadData: LeadData = {
+  //     name: leadData.nome!,
+  //     phone: leadData.telefone!,
+  //     email: leadData.email!,
+  //     business_name: leadData.empresa!,
+  //     challenge: leadData.desafio!,
+  //     customer_stage: leadData.momento!,
+  //     // investment_capacity: investimento,
+  //     type_lead: "consultoria"
+  //   };
+
+  //   try {
+  //     await updateLead(currentLeadData);
+
+  //     setTimeout(() => {
+  //       addMessage(
+  //         `${leadData.nome}, Obrigado por responder! Isso nos ajuda bastante a entender seu cenário e pensar na melhor forma de te apoiar para extrair o máximo desse investimento. 🚀`,
+  //         false
+  //       );
+  //       setTimeout(() => {
+  //         addMessage(
+  //           "Agende abaixo o melhor dia e horário para falar com a nossa equipe e garantir sua sessão estratégica!",
+  //           false
+  //         );
+  //         setStep("data");
+  //       }, 600);
+  //     }, 400);
+  //   } catch (error) {
+  //     console.error("Error creating lead:", error);
+  //     addMessage("Ocorreu um erro. Por favor, tente novamente.", false);
+  //   }
+
+  //   setTimeout(() => {
+  //     addMessage("Vamos marcar nosso encontro?", false);
+  //     setStep("data");
+  //   }, 400);
+  // };
 
   const handleDateTime = async (date: Date, time: string) => {
     if (!leadToken) return;
@@ -235,7 +280,7 @@ export const LeadFormChat = () => {
         time,
       });
 
-      console.log('appointment',appointmentResponse);
+      console.log('appointment', appointmentResponse);
 
       if (appointmentResponse.success) {
         // Save session cookie
@@ -297,14 +342,14 @@ export const LeadFormChat = () => {
             <TextInput placeholder="Nome da empresa..." onSubmit={handleEmpresa} />
           )}
           {step === "desafio" && (
-            <OptionButtons options={desafio} onSelect={handleDesafio} />
+            <MultiOptionButtons options={desafio} onConfirm={handleDesafio} />
           )}
           {step === "momento" && (
             <OptionButtons options={momento} onSelect={handleMomento} />
           )}
-          {step === "investimento" && (
+          {/* {step === "investimento" && (
             <OptionButtons options={investimento} onSelect={handleInvestimento} />
-          )}
+          )} */}
           {step === "data" && (
             <DateTimePicker onSelect={handleDateTime} isLoading={isSubmitting} />
           )}
@@ -315,9 +360,9 @@ export const LeadFormChat = () => {
                 telefone: leadData.telefone!,
                 email: leadData.email!,
                 empresa: leadData.empresa!,
-                desafio: leadData.desafio!,
+                desafio: leadData.desafio,
                 momento: leadData.momento!,
-                investimento: leadData.investimento!,
+                // investimento: leadData.investimento!,
                 dataAgendada: leadData.dataAgendada,
                 horaAgendada: leadData.horaAgendada,
               }}

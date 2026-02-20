@@ -28,7 +28,7 @@ export const TextInput = ({ placeholder, onSubmit, type = "text" }: TextInputPro
         setIsValid(digits.length >= 10);
         break;
       default:
-        setIsValid(value.trim().length >= 3);
+        setIsValid(value.trim().length >= 2);
         break;
     }
   }, [value, type]);

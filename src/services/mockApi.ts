@@ -5,9 +5,9 @@ export interface LeadData {
   phone: string;
   email: string;
   business_name: string;
-  challenge: string;
+  challenge: string | string[];
   customer_stage: string;
-  investment_capacity: string;
+  // investment_capacity: string;
   type_lead: string;
 }
 

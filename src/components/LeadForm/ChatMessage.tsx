@@ -28,15 +28,13 @@ export const ChatMessage = ({
           leading-relaxed
           transition-all duration-300
           font-medium
+          whitespace-pre-wrap
           ${
             isUser
               ? `
-                bg-gradient-to-r 
-                from-blue-600 
-                via-indigo-500 
-                to-purple-600 
+                bg-black
                 text-white 
-                shadow-[0_10px_25px_-5px_rgba(124,58,237,0.45)]
+                shadow-[0_10px_25px_-5px]
                 hover:scale-[1.02]
                 font-medium
               `
