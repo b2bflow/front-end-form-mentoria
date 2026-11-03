@@ -1,7 +1,5 @@
-import { LeadFormChat } from "@/components/LeadForm/LeadFormChat";
+import { LeadFlow } from "@/components/form/LeadFlow";
 
-const Index = () => {
-  return <LeadFormChat />;
-};
+const Index = () => <LeadFlow />;
 
 export default Index;
