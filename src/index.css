@@ -2,46 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Design system — modelo "convite confidencial" (DESIGN-MAP.md).
+   Azul-marinho quase preto + dourado como único destaque. Todas as cores em HSL
+   (canais soltos, para os modificadores de opacidade do Tailwind: bg-gold/10). */
 
 @layer base {
   :root {
-    --background: 215 71% 8%;
-    --foreground: 210 40% 98%;
+    --background: 219 62% 6%;
+    --foreground: 48 31% 94%;
 
-    --card: 215 65% 12%;
-    --card-foreground: 210 40% 98%;
+    --card: 218 44% 10%;
+    --card-foreground: 48 31% 94%;
 
-    --popover: 215 65% 12%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 218 44% 10%;
+    --popover-foreground: 48 31% 94%;
 
-    --primary: 243 61% 64%;
-    --primary-foreground: 215 71% 8%;
+    --primary: 41 79% 63%;
+    --primary-foreground: 220 75% 5%;
 
-    --secondary: 215 60% 15%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 219 33% 14%;
+    --secondary-foreground: 48 31% 94%;
 
-    --muted: 215 50% 18%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 219 33% 14%;
+    --muted-foreground: 43 9% 63%;
 
-    --accent: 172 66% 50%;
-    --accent-foreground: 215 71% 8%;
+    --accent: 218 36% 18%;
+    --accent-foreground: 48 31% 94%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 357 68% 48%;
+    --destructive-foreground: 48 31% 98%;
 
-    --border: 243 61% 64%;
-    --input: 215 40% 20%;
-    --ring: 172 66% 50%;
+    --border: 218 22% 21%;
+    --input: 218 27% 17%;
+    --ring: 42 69% 58%;
 
-    --radius: 0.75rem;
+    --gold: 41 79% 63%;
+    --gold-foreground: 220 75% 5%;
+    --gold-muted: 41 41% 44%;
 
-    /* Custom tokens */
-    --chat-bubble-user: 0 0 90%;
-    --chat-bubble-bot: 215 60% 15%;
-    --highlight: 172 66% 50%;
+    --radius: 0.5rem;
   }
 }
 
@@ -51,6 +50,6 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-sans text-foreground antialiased;
   }
 }
